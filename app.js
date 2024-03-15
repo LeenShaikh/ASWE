@@ -32,6 +32,7 @@ app.use('/user', userRoute);
 app.use('/project',projectRoute);
 app.use('/collaborations', collaborationRoute);
 app.use('/resources', resourceRoute);
+app.use('/showCase', showCase);
 
 app.listen(5000, () => {
     console.log(`Server running at http://localhost:5000`);
