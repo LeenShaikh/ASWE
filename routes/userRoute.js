@@ -127,6 +127,17 @@ router.get('/interest/:interest', async (req, res) => {
         res.status(500).json({ error: err.toString() });
     }
 });
+// GET /user/skill/:skill
+router.get('/skill/:skill', async (req, res) => {
+    try {
+        const skill = req.params.skill;
+        const collection = req.db.collection('user');
+        const usersWithSkill = await collection.find({ Craft_Skills: skill }).toArray();
+        res.status(200).json(usersWithSkill);
+    } catch (err) {
+        res.status(500).json({ error: err.toString() });
+    }
+});
 
 
 

@@ -5,6 +5,7 @@ const userRoute = require('./routes/userRoute');
 const projectRoute = require('./routes/projectRoute');
 const collaborationRoute = require('./routes/collaborationRoute');
 const resourceRoute = require('./routes/resourceRoute');
+const showCase = require('./routes/showCase');
 const app = express();
 
 const uri = "mongodb://localhost:27017/?appName=mongodb-vscode&directConnection=true&serverSelectionTimeoutMS=2000";
