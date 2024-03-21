@@ -6,6 +6,8 @@ const projectRoute = require('./routes/projectRoute');
 const collaborationRoute = require('./routes/collaborationRoute');
 const resourceRoute = require('./routes/resourceRoute');
 const taskRoute = require('./routes/taskRoute');
+const showCaseRoute = require('./routes/showCaseRoute');
+const weatherRoute = require('./routes/weatherRoute');
 const app = express();
 
 const uri = "mongodb://localhost:27017/?appName=mongodb-vscode&directConnection=true&serverSelectionTimeoutMS=2000";
@@ -34,6 +36,8 @@ app.use('/project',projectRoute);
 app.use('/collaborations', collaborationRoute);
 app.use('/resources', resourceRoute);
 app.use('/tasks', taskRoute);
+app.use('/showCase', showCaseRoute);
+app.use('/weather', weatherRoute); 
 
 app.listen(5000, () => {
     console.log(`Server running at http://localhost:5000`);

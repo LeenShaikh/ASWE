@@ -7,7 +7,6 @@ const { ObjectId } = require('mongodb');
 // POST /login
 router.post('/login', async (req, res) => {
     try {
-        console.log("inside login");
         const collection = req.db.collection('user');
         const result = await collection.findOne({ Email: req.body.Email });
 
@@ -24,7 +23,7 @@ router.post('/login', async (req, res) => {
                 msg: "success",
             });
         } else {
-            res.status(403).json("password is incorrect");
+            res.status(403).json("Password is incorrect");
         }
     } catch (err) {
         res.status(500).json({ msg: err.message });
@@ -48,11 +47,17 @@ router.post('/signup', async (req, res) => {
             Contact_Information: req.body.Contact_Information || ""
         };
         const insertResult = await collection.insertOne(newUser);
-        res.status(201).json(insertResult.ops[0]);
+        if (insertResult.insertedCount === 1) {
+            res.status(201).json({ message: "User inserted successfully", user: newUser });
+        } else {
+            res.status(500).json({ error: "Failed to insert user" });
+        }
     } catch (err) {
         res.status(500).json({ error: err.toString() });
     }
 });
+
+
 
 // DELETE /user/:id
 router.delete('/:id', async (req, res) => {
@@ -128,7 +133,17 @@ router.get('/interest/:interest', async (req, res) => {
     }
 });
 
-
+// GET /user/skill/:skill
+router.get('/skill/:skill', async (req, res) => {
+    try {
+        const skill = req.params.skill;
+        const collection = req.db.collection('user');
+        const usersWithSkill = await collection.find({ Craft_Skills: skill }).toArray();
+        res.status(200).json(usersWithSkill);
+    } catch (err) {
+        res.status(500).json({ error: err.toString() });
+    }
+});
 
 module.exports = router;
 
