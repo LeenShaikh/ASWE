@@ -30,33 +30,35 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
 // POST /signup
 router.post('/signup', async (req, res) => {
     try {
-        const collection = req.db.collection('user');
-        const existingUser = await collection.findOne({ Email: req.body.Email });
-        if (existingUser) {
-            return res.status(400).json("Email already exists");
-        }
         const newUser = {
             Username: req.body.Username,
             Email: req.body.Email,
-            Password: req.body.Password, 
+            Password: req.body.Password,
             Craft_Skills: req.body.Craft_Skills || [],
             Interests: req.body.Interests || [],
             Contact_Information: req.body.Contact_Information || ""
         };
-        const insertResult = await collection.insertOne(newUser);
-        if (insertResult.insertedCount === 1) {
-            res.status(201).json({ message: "User inserted successfully", user: newUser });
-        } else {
-            res.status(500).json({ error: "Failed to insert user" });
+
+        const collection = req.db.collection('user');
+
+        const existingUser = await collection.findOne({ Email: newUser.Email });
+        if (existingUser) {
+            return res.status(400).json({ error: "Email already exists" });
         }
+        else{
+            const result = await collection.insertOne(newUser);
+            return res.status(201).json({ success: true, message: "User added successfully" });
+        }
+       
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err.toString() });
     }
 });
-
 
 
 // DELETE /user/:id
